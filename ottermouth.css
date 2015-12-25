@@ -1,0 +1,23 @@
+.om-sidenav-banner {
+  width: 100%;
+  min-height: 146px;
+  background-image: url(./img/olive.jpg);
+  background-size: cover;
+}
+.om-sidenav-banner .md-title {
+  margin-left: 16px;
+}
+.om-sidenav ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.om-sidenav button {
+  margin: 0;
+  padding: 4px 16px;
+  text-align: left;
+  width: 100%;
+}
+.om-nav-choice {
+  color: #999;
+}

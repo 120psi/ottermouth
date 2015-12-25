@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js" ></script>
+
+    <!-- Angular Material Dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+
+    <!-- Angular Material Javascript now available via Google CDN; version 0.9.4 used here -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+    <script src="./ottermouth.js" ></script>
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+    <link rel="stylesheet" href="ottermouth.css"></link>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
+  </head>
+  <body ng-app="ottermouth" om-app layout="row">
+    <md-sidenav class="om-sidenav md-whiteframe-z3" md-component-id="left" layout="column" md-is-locked-open="$mdMedia('gt-sm')">
+      <div class="om-sidenav-banner md-whiteframe-z2">
+        <h2 class="md-title">Sea otter dentition</h2>
+      </div>
+      <md-content>
+        <ol>
+          <li ng-repeat="tooth in ctrl.teeth">
+            <md-button
+                class="md-hue-3"
+                ng-click="ctrl.goTo(tooth.id)"
+                ng-class="{'md-accent': tooth.id == ctrl.tooth.id}">
+              {{ tooth.id }}
+              <span flex></span>
+              <span class="om-nav-choice" ng-if="ctrl.presentTeeth[tooth.id]">
+                {{ tooth.RANGE_LABEL_MAP[ctrl.presentTeeth[tooth.id]] }}
+              </span>
+            </md-button>
+          </li>
+          <li>
+            <md-button
+                class="md-hue-3"
+                ng-click="ctrl.goToResults()"
+                ng-class="{'md-accent': ctrl.onResultsPage()}">
+              Results
+            </md-button>
+          </li>
+        </ol>
+      </md-content>
+    </md-sidenav>
+    <div flex>
+      <md-toolbar class="md-whiteframe-z1">
+        <div class="md-toolbar-tools">
+          <md-button ng-click="$mdSidenav('left').open()" class="md-icon-button" hide-gt-md>
+            <md-icon>menu</md-icon>
+          </md-button>
+          <h2>{{ ctrl.tooth.id || 'Results' }}</h2>
+          <!-- fill up the space between left and right area -->
+          <span flex> </span>
+          <md-button class="md-icon-button">
+             <md-icon>more_vert</md-icon>
+          </md-button>
+        </div>
+      </md-toolbar>
+      <md-content class="md-padding" layout="column">
+        <section ng-if="!ctrl.onResultsPage()">
+          <div style="height: 200px; width: 200px; background-color: #aaa">graphic here</div>
+          <om-range-button tooth="ctrl.tooth" tooth-range="ctrl.tooth.PUP_RANGE_KEY">
+            {{ ctrl.tooth.RANGE_LABEL_MAP[ctrl.tooth.PUP_RANGE_KEY] }}
+          </om-range-button>
+          <om-range-button tooth="ctrl.tooth" tooth-range="ctrl.tooth.ERUPT_RANGE_KEY">
+            {{ ctrl.tooth.RANGE_LABEL_MAP[ctrl.tooth.ERUPT_RANGE_KEY] }}
+          </om-range-button>
+          <om-range-button tooth="ctrl.tooth" tooth-range="ctrl.tooth.ADULT_RANGE_KEY">
+            {{ ctrl.tooth.RANGE_LABEL_MAP[ctrl.tooth.ADULT_RANGE_KEY] }}
+          </om-range-button>
+          <om-range-button tooth="ctrl.tooth" tooth-range="ctrl.tooth.NOT_PRESENT_RANGE_KEY">
+            {{ ctrl.tooth.RANGE_LABEL_MAP[ctrl.tooth.NOT_PRESENT_RANGE_KEY] }}
+          </om-range-button>
+        </section>
+        <section ng-if="ctrl.onResultsPage()">
+          This otter is between {{ ctrl.getRange().min }} and {{ ctrl.getRange().max }} weeks old!
+
+          <md-button ng-click="ctrl.reset()">Start over</md-button>
+        </section>
+      </md-content>
+    </div>
+  </body>
+</html>
